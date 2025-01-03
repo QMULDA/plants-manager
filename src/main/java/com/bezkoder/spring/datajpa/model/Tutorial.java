@@ -3,8 +3,8 @@ package com.bezkoder.spring.datajpa.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "plants")
-public class Plant {
+@Table(name = "tutorials")
+public class Tutorial {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,11 +19,11 @@ public class Plant {
 	@Column(name = "published")
 	private boolean published;
 
-	public Plant() {
+	public Tutorial() {
 
 	}
 
-	public Plant(String title, String description, boolean published) {
+	public Tutorial(String title, String description, boolean published) {
 		this.title = title;
 		this.description = description;
 		this.published = published;
@@ -33,11 +33,11 @@ public class Plant {
 		return id;
 	}
 
-	public String getCommonName() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setCommonName(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -59,7 +59,7 @@ public class Plant {
 
 	@Override
 	public String toString() {
-		return "Plant [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
 	}
 
 }

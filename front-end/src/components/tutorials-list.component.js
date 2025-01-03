@@ -1,42 +1,42 @@
 import React, { Component } from "react";
-import PlantDataService from "../services/plant.service";
+import TutorialDataService from "../services/tutorial.service";
 import { Link } from "react-router-dom";
 
-export default class PlantsList extends Component {
+export default class TutorialsList extends Component {
   constructor(props) {
     super(props);
-    this.onChangeSearchCommonName = this.onChangeSearchCommonName.bind(this);
-    this.retrievePlants = this.retrievePlants.bind(this);
+    this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
+    this.retrieveTutorials = this.retrieveTutorials.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActivePlant = this.setActivePlant.bind(this);
-    this.removeAllPlants = this.removeAllPlants.bind(this);
-    this.searchCommonName = this.searchCommonName.bind(this);
+    this.setActiveTutorial = this.setActiveTutorial.bind(this);
+    this.removeAllTutorials = this.removeAllTutorials.bind(this);
+    this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
-      plants: [],
-      currentPlant: null,
+      tutorials: [],
+      currentTutorial: null,
       currentIndex: -1,
-      searchCommonName: ""
+      searchTitle: ""
     };
   }
 
   componentDidMount() {
-    this.retrievePlants();
+    this.retrieveTutorials();
   }
 
-  onChangeSearchCommonName(e) {
-    const searchCommonName = e.target.value;
+  onChangeSearchTitle(e) {
+    const searchTitle = e.target.value;
 
     this.setState({
-      searchCommonName: searchCommonName
+      searchTitle: searchTitle
     });
   }
 
-  retrievePlants() {
-    PlantDataService.getAll()
+  retrieveTutorials() {
+    TutorialDataService.getAll()
       .then(response => {
         this.setState({
-          plants: response.data
+          tutorials: response.data
         });
         console.log(response.data);
       })
@@ -46,22 +46,22 @@ export default class PlantsList extends Component {
   }
 
   refreshList() {
-    this.retrievePlants();
+    this.retrieveTutorials();
     this.setState({
-      currentPlant: null,
+      currentTutorial: null,
       currentIndex: -1
     });
   }
 
-  setActivePlant(plant, index) {
+  setActiveTutorial(tutorial, index) {
     this.setState({
-      currentPlant: plant,
+      currentTutorial: tutorial,
       currentIndex: index
     });
   }
 
-  removeAllPlants() {
-    PlantDataService.deleteAll()
+  removeAllTutorials() {
+    TutorialDataService.deleteAll()
       .then(response => {
         console.log(response.data);
         this.refreshList();
@@ -71,16 +71,16 @@ export default class PlantsList extends Component {
       });
   }
 
-  searchCommonName() {
+  searchTitle() {
     this.setState({
-      currentPlant: null,
+      currentTutorial: null,
       currentIndex: -1
     });
 
-    PlantDataService.findByCommonName(this.state.searchCommonName)
+    TutorialDataService.findByTitle(this.state.searchTitle)
       .then(response => {
         this.setState({
-          plants: response.data
+          tutorials: response.data
         });
         console.log(response.data);
       })
@@ -90,7 +90,7 @@ export default class PlantsList extends Component {
   }
 
   render() {
-    const { searchCommonName, plants, currentPlant, currentIndex } = this.state;
+    const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
 
     return (
       <div className="list row">
@@ -99,15 +99,15 @@ export default class PlantsList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by common name"
-              value={searchCommonName}
-              onChange={this.onChangeSearchCommonName}
+              placeholder="Search by title"
+              value={searchTitle}
+              onChange={this.onChangeSearchTitle}
             />
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
                 type="button"
-                onClick={this.searchCommonName}
+                onClick={this.searchTitle}
               >
                 Search
               </button>
@@ -118,53 +118,53 @@ export default class PlantsList extends Component {
           <h4>Plants List</h4>
 
           <ul className="list-group">
-            {plants &&
-              plants.map((plant, index) => (
+            {tutorials &&
+              tutorials.map((tutorial, index) => (
                 <li
                   className={
                     "list-group-item " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActivePlant(plant, index)}
+                  onClick={() => this.setActiveTutorial(tutorial, index)}
                   key={index}
                 >
-                  {plant.title}
+                  {tutorial.title}
                 </li>
               ))}
           </ul>
 
           <button
             className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllPlants}
+            onClick={this.removeAllTutorials}
           >
             Remove All
           </button>
         </div>
         <div className="col-md-6">
-          {currentPlant ? (
+          {currentTutorial ? (
             <div>
-              <h4>Plant</h4>
+              <h4>Tutorial</h4>
               <div>
                 <label>
-                  <strong>Common Name:</strong>
+                  <strong>Title:</strong>
                 </label>{" "}
-                {currentPlant.title}
+                {currentTutorial.title}
               </div>
               <div>
                 <label>
                   <strong>Description:</strong>
                 </label>{" "}
-                {currentPlant.description}
+                {currentTutorial.description}
               </div>
               <div>
                 <label>
                   <strong>Status:</strong>
                 </label>{" "}
-                {currentPlant.published ? "Published" : "Pending"}
+                {currentTutorial.published ? "Published" : "Pending"}
               </div>
 
               <Link
-                to={"/plants/" + currentPlant.id}
+                to={"/tutorials/" + currentTutorial.id}
                 className="badge badge-warning"
               >
                 Edit
@@ -173,7 +173,7 @@ export default class PlantsList extends Component {
           ) : (
             <div>
               <br />
-              <p>Please click on a plant...</p>
+              <p>Please click on a Tutorial...</p>
             </div>
           )}
         </div>
