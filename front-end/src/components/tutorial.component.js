@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import PlantDataService from "../services/plant.service";
+import TutorialDataService from "../services/tutorial.service";
 import { withRouter } from '../common/with-router';
 
-class Plant extends Component {
+class Tutorial extends Component {
   constructor(props) {
     super(props);
-    this.onChangeCommonName = this.onChangeCommonName.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.getPlant = this.getPlant.bind(this);
+    this.getTutorial = this.getTutorial.bind(this);
     this.updatePublished = this.updatePublished.bind(this);
-    this.updatePlant = this.updatePlant.bind(this);
-    this.deletePlant = this.deletePlant.bind(this);
+    this.updateTutorial = this.updateTutorial.bind(this);
+    this.deleteTutorial = this.deleteTutorial.bind(this);
 
     this.state = {
-      currentPlant: {
+      currentTutorial: {
         id: null,
         title: "",
         description: "",
@@ -24,16 +24,16 @@ class Plant extends Component {
   }
 
   componentDidMount() {
-    this.getPlant(this.props.router.params.id);
+    this.getTutorial(this.props.router.params.id);
   }
 
-  onChangeCommonName(e) {
+  onChangeTitle(e) {
     const title = e.target.value;
 
     this.setState(function(prevState) {
       return {
-        currentPlant: {
-          ...prevState.currentPlant,
+        currentTutorial: {
+          ...prevState.currentTutorial,
           title: title
         }
       };
@@ -44,18 +44,18 @@ class Plant extends Component {
     const description = e.target.value;
     
     this.setState(prevState => ({
-      currentPlant: {
-        ...prevState.currentPlant,
+      currentTutorial: {
+        ...prevState.currentTutorial,
         description: description
       }
     }));
   }
 
-  getPlant(id) {
-    PlantDataService.get(id)
+  getTutorial(id) {
+    TutorialDataService.get(id)
       .then(response => {
         this.setState({
-          currentPlant: response.data
+          currentTutorial: response.data
         });
         console.log(response.data);
       })
@@ -66,17 +66,17 @@ class Plant extends Component {
 
   updatePublished(status) {
     var data = {
-      id: this.state.currentPlant.id,
-      title: this.state.currentPlant.title,
-      description: this.state.currentPlant.description,
+      id: this.state.currentTutorial.id,
+      title: this.state.currentTutorial.title,
+      description: this.state.currentTutorial.description,
       published: status
     };
 
-    PlantDataService.update(this.state.currentPlant.id, data)
+    TutorialDataService.update(this.state.currentTutorial.id, data)
       .then(response => {
         this.setState(prevState => ({
-          currentPlant: {
-            ...prevState.currentPlant,
+          currentTutorial: {
+            ...prevState.currentTutorial,
             published: status
           }
         }));
@@ -87,15 +87,15 @@ class Plant extends Component {
       });
   }
 
-  updatePlant() {
-    PlantDataService.update(
-      this.state.currentPlant.id,
-      this.state.currentPlant
+  updateTutorial() {
+    TutorialDataService.update(
+      this.state.currentTutorial.id,
+      this.state.currentTutorial
     )
       .then(response => {
         console.log(response.data);
         this.setState({
-          message: "The plant was updated successfully!"
+          message: "The tutorial was updated successfully!"
         });
       })
       .catch(e => {
@@ -103,11 +103,11 @@ class Plant extends Component {
       });
   }
 
-  deletePlant() {    
-    PlantDataService.delete(this.state.currentPlant.id)
+  deleteTutorial() {    
+    TutorialDataService.delete(this.state.currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        this.props.router.navigate('/plants');
+        this.props.router.navigate('/tutorials');
       })
       .catch(e => {
         console.log(e);
@@ -115,22 +115,22 @@ class Plant extends Component {
   }
 
   render() {
-    const { currentPlant } = this.state;
+    const { currentTutorial } = this.state;
 
     return (
       <div>
-        {currentPlant ? (
+        {currentTutorial ? (
           <div className="edit-form">
-            <h4>Plant</h4>
+            <h4>Tutorial</h4>
             <form>
               <div className="form-group">
-                <label htmlFor="title">CommonName</label>
+                <label htmlFor="title">Title</label>
                 <input
                   type="text"
                   className="form-control"
                   id="title"
-                  value={currentPlant.title}
-                  onChange={this.onChangeCommonName}
+                  value={currentTutorial.title}
+                  onChange={this.onChangeTitle}
                 />
               </div>
               <div className="form-group">
@@ -139,7 +139,7 @@ class Plant extends Component {
                   type="text"
                   className="form-control"
                   id="description"
-                  value={currentPlant.description}
+                  value={currentTutorial.description}
                   onChange={this.onChangeDescription}
                 />
               </div>
@@ -148,11 +148,11 @@ class Plant extends Component {
                 <label>
                   <strong>Status:</strong>
                 </label>
-                {currentPlant.published ? "Published" : "Pending"}
+                {currentTutorial.published ? "Published" : "Pending"}
               </div>
             </form>
 
-            {currentPlant.published ? (
+            {currentTutorial.published ? (
               <button
                 className="badge badge-primary mr-2"
                 onClick={() => this.updatePublished(false)}
@@ -170,7 +170,7 @@ class Plant extends Component {
 
             <button
               className="badge badge-danger mr-2"
-              onClick={this.deletePlant}
+              onClick={this.deleteTutorial}
             >
               Delete
             </button>
@@ -178,7 +178,7 @@ class Plant extends Component {
             <button
               type="submit"
               className="badge badge-success"
-              onClick={this.updatePlant}
+              onClick={this.updateTutorial}
             >
               Update
             </button>
@@ -187,7 +187,7 @@ class Plant extends Component {
         ) : (
           <div>
             <br />
-            <p>Please click on a Plant...</p>
+            <p>Please click on a Tutorial...</p>
           </div>
         )}
       </div>
@@ -195,4 +195,4 @@ class Plant extends Component {
   }
 }
 
-export default withRouter(Plant);
+export default withRouter(Tutorial);

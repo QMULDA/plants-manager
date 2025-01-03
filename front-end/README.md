@@ -2,10 +2,10 @@
 
 Build a React.js CRUD Application to consume Web API, display and modify data with Router, Axios & Bootstrap.
 
-React Plant Application in that:
-- Each Plant has id, title, description, published status.
-- We can create, retrieve, update, delete Plants.
-- There is a Search bar for finding Plants by title.
+React Tutorial Application in that:
+- Each Tutorial has id, title, description, published status.
+- We can create, retrieve, update, delete Tutorials.
+- There is a Search bar for finding Tutorials by title.
 
 ![react-crud-example-web-api-demo](react-crud-example-web-api-demo.png)
 

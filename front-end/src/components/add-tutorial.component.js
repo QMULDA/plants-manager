@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import PlantDataService from "../services/plant.service";
+import TutorialDataService from "../services/tutorial.service";
 
-export default class AddPlant extends Component {
+export default class AddTutorial extends Component {
   constructor(props) {
     super(props);
-    this.onChangeCommonName = this.onChangeCommonName.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.savePlant = this.savePlant.bind(this);
-    this.newPlant = this.newPlant.bind(this);
+    this.saveTutorial = this.saveTutorial.bind(this);
+    this.newTutorial = this.newTutorial.bind(this);
 
     this.state = {
       id: null,
@@ -19,7 +19,7 @@ export default class AddPlant extends Component {
     };
   }
 
-  onChangeCommonName(e) {
+  onChangeTitle(e) {
     this.setState({
       title: e.target.value
     });
@@ -31,13 +31,13 @@ export default class AddPlant extends Component {
     });
   }
 
-  savePlant() {
+  saveTutorial() {
     var data = {
       title: this.state.title,
       description: this.state.description
     };
 
-    PlantDataService.create(data)
+    TutorialDataService.create(data)
       .then(response => {
         this.setState({
           id: response.data.id,
@@ -54,7 +54,7 @@ export default class AddPlant extends Component {
       });
   }
 
-  newPlant() {
+  newTutorial() {
     this.setState({
       id: null,
       title: "",
@@ -71,21 +71,21 @@ export default class AddPlant extends Component {
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={this.newPlant}>
+            <button className="btn btn-success" onClick={this.newTutorial}>
               Add
             </button>
           </div>
         ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="title">CommonName</label>
+              <label htmlFor="title">Title</label>
               <input
                 type="text"
                 className="form-control"
                 id="title"
                 required
                 value={this.state.title}
-                onChange={this.onChangeCommonName}
+                onChange={this.onChangeTitle}
                 name="title"
               />
             </div>
@@ -103,7 +103,7 @@ export default class AddPlant extends Component {
               />
             </div>
 
-            <button onClick={this.savePlant} className="btn btn-success">
+            <button onClick={this.saveTutorial} className="btn btn-success">
               Submit
             </button>
           </div>

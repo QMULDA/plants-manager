@@ -1,0 +1,20 @@
+{
+  "name": "plants-manager",
+  "version": "1.0.0",
+  "description": "For more detail, please visit:\r > [Spring Boot JPA + MySQL - Building Rest CRUD API example](https://www.bezkoder.com/spring-boot-jpa-crud-rest-api/)",
+  "homepage": "https://github.com/QMULDA/plants-manager#readme",
+  "bugs": {
+    "url": "https://github.com/QMULDA/plants-manager/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QMULDA/plants-manager.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
