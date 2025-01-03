@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import PlantDataService from "../services/plant.service";
 
-export default class AddTutorial extends Component {
+export default class AddPlant extends Component {
   constructor(props) {
     super(props);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeCommonName = this.onChangeCommonName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.saveTutorial = this.saveTutorial.bind(this);
-    this.newTutorial = this.newTutorial.bind(this);
+    this.savePlant = this.savePlant.bind(this);
+    this.newPlant = this.newPlant.bind(this);
 
     this.state = {
       id: null,
-      title: "",
+      commonName: "",
       description: "", 
       published: false,
 
@@ -19,9 +19,9 @@ export default class AddTutorial extends Component {
     };
   }
 
-  onChangeTitle(e) {
+  onChangeCommonName(e) {
     this.setState({
-      title: e.target.value
+      commonName: e.target.value
     });
   }
 
@@ -31,17 +31,17 @@ export default class AddTutorial extends Component {
     });
   }
 
-  saveTutorial() {
+  savePlant() {
     var data = {
-      title: this.state.title,
+      commonName: this.state.commonName,
       description: this.state.description
     };
 
-    TutorialDataService.create(data)
+    PlantDataService.create(data)
       .then(response => {
         this.setState({
           id: response.data.id,
-          title: response.data.title,
+          commonName: response.data.commonName,
           description: response.data.description,
           published: response.data.published,
 
@@ -54,10 +54,10 @@ export default class AddTutorial extends Component {
       });
   }
 
-  newTutorial() {
+  newPlant() {
     this.setState({
       id: null,
-      title: "",
+      commonName: "",
       description: "",
       published: false,
 
@@ -71,22 +71,22 @@ export default class AddTutorial extends Component {
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={this.newTutorial}>
+            <button className="btn btn-success" onClick={this.newPlant}>
               Add
             </button>
           </div>
         ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="commonName">Common Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
+                id="commonName"
                 required
-                value={this.state.title}
-                onChange={this.onChangeTitle}
-                name="title"
+                value={this.state.commonName}
+                onChange={this.onChangeCommonName}
+                name="commonName"
               />
             </div>
 
@@ -103,7 +103,7 @@ export default class AddTutorial extends Component {
               />
             </div>
 
-            <button onClick={this.saveTutorial} className="btn btn-success">
+            <button onClick={this.savePlant} className="btn btn-success">
               Submit
             </button>
           </div>

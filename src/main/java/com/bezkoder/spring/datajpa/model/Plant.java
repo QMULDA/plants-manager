@@ -3,15 +3,15 @@ package com.bezkoder.spring.datajpa.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tutorials")
-public class Tutorial {
+@Table(name = "plants")
+public class Plant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "commonName")
+	private String commonName;
 
 	@Column(name = "description")
 	private String description;
@@ -19,12 +19,12 @@ public class Tutorial {
 	@Column(name = "published")
 	private boolean published;
 
-	public Tutorial() {
+	public Plant() {
 
 	}
 
-	public Tutorial(String title, String description, boolean published) {
-		this.title = title;
+	public Plant(String commonName, String description, boolean published) {
+		this.commonName = commonName;
 		this.description = description;
 		this.published = published;
 	}
@@ -33,12 +33,12 @@ public class Tutorial {
 		return id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getCommonName() {
+		return commonName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
 	}
 
 	public String getDescription() {
@@ -59,7 +59,7 @@ public class Tutorial {
 
 	@Override
 	public String toString() {
-		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + description + ", published=" + published + "]";
 	}
 
 }
