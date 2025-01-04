@@ -16,17 +16,21 @@ public class Plant {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "published")
-	private boolean published;
+	@Column(name = "isTrailing")
+	private boolean isTrailing;
+
+	@Column(name = "flowering")
+	private boolean flowering;
 
 	public Plant() {
 
 	}
 
-	public Plant(String commonName, String description, boolean published) {
+	public Plant(String commonName, String description, boolean isTrailing, boolean flowering) {
 		this.commonName = commonName;
 		this.description = description;
-		this.published = published;
+		this.isTrailing = isTrailing;
+		this.flowering = flowering;
 	}
 
 	public long getId() {
@@ -45,21 +49,19 @@ public class Plant {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public void setDescription(String description) { this.description = description; }
 
-	public boolean isPublished() {
-		return published;
-	}
+	public boolean getIsTrailing() { return isTrailing; }
 
-	public void setPublished(boolean isPublished) {
-		this.published = isPublished;
-	}
+	public void setIsTrailing(boolean isTrailing) { this.isTrailing = isTrailing; }
+
+	public boolean getFlowering() {return flowering;}
+
+	public void setFlowering(boolean isFlowering) {this.flowering = isFlowering;}
 
 	@Override
 	public String toString() {
-		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + description + ", published=" + published + "]";
+		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + description + ", trailing=" + isTrailing + ", flowering=" + flowering + "]";
 	}
 
 }

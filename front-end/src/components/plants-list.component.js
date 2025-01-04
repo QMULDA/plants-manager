@@ -142,39 +142,45 @@ export default class PlantsList extends Component {
         </div>
         <div className="col-md-6">
           {currentPlant ? (
-            <div>
-              <h4>Plant</h4>
               <div>
-                <label>
-                  <strong>Common Name:</strong>
-                </label>{" "}
-                {currentPlant.commonName}
-              </div>
-              <div>
-                <label>
-                  <strong>Description:</strong>
-                </label>{" "}
-                {currentPlant.description}
-              </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentPlant.published ? "Published" : "Pending"}
-              </div>
+                <h4>Plant</h4>
+                <div>
+                  <label>
+                    <strong>Common Name:</strong>
+                  </label>{" "}
+                  {currentPlant.commonName}
+                </div>
+                <div>
+                  <label>
+                    <strong>Description:</strong>
+                  </label>{" "}
+                  {currentPlant.description}
+                </div>
+                <div>
+                  <label>
+                    <strong>Status:</strong>
+                  </label>{" "}
+                  {currentPlant.isTrailing ? "Trailing" : "Not Trailing"}
+                </div>
+                <div>
+                  <label>
+                    <strong>Status:</strong>
+                  </label>{" "}
+                  {currentPlant.flowering ? "Flowering" : "Not Flowering"}
+                </div>
 
-              <Link
-                to={"/plants/" + currentPlant.id}
-                className="badge badge-warning"
-              >
-                Edit
-              </Link>
-            </div>
+                <Link
+                    to={"/plants/" + currentPlant.id}
+                    className="badge badge-warning"
+                >
+                  Edit
+                </Link>
+              </div>
           ) : (
-            <div>
-              <br />
-              <p>Please click on a plant...</p>
-            </div>
+              <div>
+                <br/>
+                <p>Please click on a plant...</p>
+              </div>
           )}
         </div>
       </div>

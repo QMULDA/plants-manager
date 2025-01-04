@@ -64,7 +64,7 @@ public class PlantController {
 	public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
 		try {
 			Plant _plant = plantRepository
-					.save(new Plant(plant.getCommonName(), plant.getDescription(), false));
+					.save(new Plant(plant.getCommonName(), plant.getDescription(), false, false));
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +79,8 @@ public class PlantController {
 			Plant _plant = plantData.get();
 			_plant.setCommonName(plant.getCommonName());
 			_plant.setDescription(plant.getDescription());
-			_plant.setPublished(plant.isPublished());
+			_plant.setIsTrailing(plant.getIsTrailing());
+			_plant.setFlowering(plant.getFlowering());
 			return new ResponseEntity<>(plantRepository.save(_plant), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -105,20 +106,6 @@ public class PlantController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}
-
-	@GetMapping("/plants/published")
-	public ResponseEntity<List<Plant>> findByPublished() {
-		try {
-			List<Plant> plants = plantRepository.findByPublished(true);
-
-			if (plants.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(plants, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 	}
 
 }

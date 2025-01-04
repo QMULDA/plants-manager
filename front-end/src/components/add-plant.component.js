@@ -13,7 +13,8 @@ export default class AddPlant extends Component {
       id: null,
       commonName: "",
       description: "", 
-      published: false,
+      isTrailing: false,
+      flowering: false,
 
       submitted: false
     };
@@ -43,7 +44,8 @@ export default class AddPlant extends Component {
           id: response.data.id,
           commonName: response.data.commonName,
           description: response.data.description,
-          published: response.data.published,
+          isTrailing: response.data.isTrailing,
+          flowering: response.data.flowering,
 
           submitted: true
         });
@@ -59,7 +61,8 @@ export default class AddPlant extends Component {
       id: null,
       commonName: "",
       description: "",
-      published: false,
+      isTrailing: false,
+      flowering: false,
 
       submitted: false
     });
