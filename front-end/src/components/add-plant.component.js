@@ -5,14 +5,14 @@ export default class AddPlant extends Component {
   constructor(props) {
     super(props);
     this.onChangeCommonName = this.onChangeCommonName.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeScientificName = this.onChangeScientificName.bind(this);
     this.savePlant = this.savePlant.bind(this);
     this.newPlant = this.newPlant.bind(this);
 
     this.state = {
       id: null,
       commonName: "",
-      description: "", 
+      scientificName: "",
       isTrailing: false,
       flowering: false,
 
@@ -26,16 +26,16 @@ export default class AddPlant extends Component {
     });
   }
 
-  onChangeDescription(e) {
+  onChangeScientificName(e) {
     this.setState({
-      description: e.target.value
+      scientificName: e.target.value
     });
   }
 
   savePlant() {
     var data = {
       commonName: this.state.commonName,
-      description: this.state.description
+      scientificName: this.state.scientificName
     };
 
     PlantDataService.create(data)
@@ -43,7 +43,7 @@ export default class AddPlant extends Component {
         this.setState({
           id: response.data.id,
           commonName: response.data.commonName,
-          description: response.data.description,
+          scientificName: response.data.scientificName,
           isTrailing: response.data.isTrailing,
           flowering: response.data.flowering,
 
@@ -60,7 +60,7 @@ export default class AddPlant extends Component {
     this.setState({
       id: null,
       commonName: "",
-      description: "",
+      scientificName: "",
       isTrailing: false,
       flowering: false,
 
@@ -94,15 +94,15 @@ export default class AddPlant extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="scientificName">Scientific Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="description"
+                id="scientificName"
                 required
-                value={this.state.description}
-                onChange={this.onChangeDescription}
-                name="description"
+                value={this.state.scientificName}
+                onChange={this.onChangeScientificName}
+                name="scientificName"
               />
             </div>
 

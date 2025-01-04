@@ -13,8 +13,8 @@ public class Plant {
 	@Column(name = "commonName")
 	private String commonName;
 
-	@Column(name = "description")
-	private String description;
+	@Column(name = "scientificName")
+	private String scientificName;
 
 	@Column(name = "isTrailing")
 	private boolean isTrailing;
@@ -26,9 +26,9 @@ public class Plant {
 
 	}
 
-	public Plant(String commonName, String description, boolean isTrailing, boolean flowering) {
+	public Plant(String commonName, String scientificName, boolean isTrailing, boolean flowering) {
 		this.commonName = commonName;
-		this.description = description;
+		this.scientificName = scientificName;
 		this.isTrailing = isTrailing;
 		this.flowering = flowering;
 	}
@@ -45,11 +45,11 @@ public class Plant {
 		this.commonName = commonName;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getScientificName() {
+		return scientificName;
 	}
 
-	public void setDescription(String description) { this.description = description; }
+	public void setScientificName(String scientificName) { this.scientificName = scientificName; }
 
 	public boolean getIsTrailing() { return isTrailing; }
 
@@ -61,7 +61,7 @@ public class Plant {
 
 	@Override
 	public String toString() {
-		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + description + ", trailing=" + isTrailing + ", flowering=" + flowering + "]";
+		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + scientificName + ", trailing=" + isTrailing + ", flowering=" + flowering + "]";
 	}
 
 }

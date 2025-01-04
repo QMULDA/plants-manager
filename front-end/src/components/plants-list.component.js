@@ -152,9 +152,9 @@ export default class PlantsList extends Component {
                 </div>
                 <div>
                   <label>
-                    <strong>Description:</strong>
+                    <strong>Scientific Name:</strong>
                   </label>{" "}
-                  {currentPlant.description}
+                  {currentPlant.scientificName}
                 </div>
                 <div>
                   <label>

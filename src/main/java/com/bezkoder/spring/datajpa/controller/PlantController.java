@@ -64,7 +64,7 @@ public class PlantController {
 	public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
 		try {
 			Plant _plant = plantRepository
-					.save(new Plant(plant.getCommonName(), plant.getDescription(), false, false));
+					.save(new Plant(plant.getCommonName(), plant.getScientificName(), false, false));
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,7 +78,7 @@ public class PlantController {
 		if (plantData.isPresent()) {
 			Plant _plant = plantData.get();
 			_plant.setCommonName(plant.getCommonName());
-			_plant.setDescription(plant.getDescription());
+			_plant.setScientificName(plant.getScientificName());
 			_plant.setIsTrailing(plant.getIsTrailing());
 			_plant.setFlowering(plant.getFlowering());
 			return new ResponseEntity<>(plantRepository.save(_plant), HttpStatus.OK);

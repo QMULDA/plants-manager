@@ -6,7 +6,7 @@ class Plant extends Component {
     constructor(props) {
         super(props);
         this.onChangeCommonName = this.onChangeCommonName.bind(this);
-        this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeScientificName = this.onChangeScientificName.bind(this);
         this.getPlant = this.getPlant.bind(this);
         //this.updateIsTrailing = this.updateIsTrailing.bind(this);
         this.updatePlant = this.updatePlant.bind(this);
@@ -16,7 +16,7 @@ class Plant extends Component {
             currentPlant: {
                 id: null,
                 commonName: "",
-                description: "",
+                scientificName: "",
                 isTrailing: false,
                 flowering: false
             },
@@ -41,13 +41,13 @@ class Plant extends Component {
         });
     }
 
-    onChangeDescription(e) {
-        const description = e.target.value;
+    onChangeScientificName(e) {
+        const scientificName = e.target.value;
 
         this.setState(prevState => ({
             currentPlant: {
                 ...prevState.currentPlant,
-                description: description
+                scientificName: scientificName
             }
         }));
     }
@@ -69,7 +69,7 @@ class Plant extends Component {
         var data = {
             id: this.state.currentPlant.id,
             commonName: this.state.currentPlant.commonName,
-            description: this.state.currentPlant.description,
+            scientificName: this.state.currentPlant.scientificName,
             isTrailing: status,
             flowering: this.state.currentPlant.flowering
         };
@@ -93,7 +93,7 @@ class Plant extends Component {
         var data = {
             id: this.state.currentPlant.id,
             commonName: this.state.currentPlant.commonName,
-            description: this.state.currentPlant.description,
+            scientificName: this.state.currentPlant.scientificName,
             isTrailing: this.state.currentPlant.isTrailing,
             flowering: status
         };
@@ -160,13 +160,13 @@ class Plant extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="description">Description</label>
+                                <label htmlFor="scientificName">Scientific Name</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="description"
-                                    value={currentPlant.description}
-                                    onChange={this.onChangeDescription}
+                                    id="scientificName"
+                                    value={currentPlant.scientificName}
+                                    onChange={this.onChangeScientificName}
                                 />
                             </div>
 
