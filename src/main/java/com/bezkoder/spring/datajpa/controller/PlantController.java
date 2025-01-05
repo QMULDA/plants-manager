@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.bezkoder.spring.datajpa.model.Cactus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,22 @@ public class PlantController {
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/cactus")
+	public ResponseEntity<Plant> createCactus(@RequestBody Plant plant) {
+		try {
+			System.out.println("Dog constructor called. 1");
+			var c = new Cactus(false, false);
+			System.out.println("Dog constructor called. 2");
+			//Plant c = new Plant(plant.getCommonName(), plant.getScientificName(),false, false);
+			Plant _plant = plantRepository.save(c);
+			System.out.println("Dog constructor called. 3");
+			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
+		} catch (Exception e) {
+			System.out.println("Dog constructor called. 4");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 

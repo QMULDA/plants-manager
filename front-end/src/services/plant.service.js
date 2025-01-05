@@ -13,6 +13,10 @@ class PlantDataService {
     return http.post("/plants", data);
   }
 
+  createCactus(data) {
+    return http.post("/cactus", data);
+  }
+
   update(id, data) {
     return http.put(`/plants/${id}`, data);
   }
