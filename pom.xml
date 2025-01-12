@@ -63,6 +63,16 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.0.33</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.6</version>
+		</dependency>
 		
 	</dependencies>
 
@@ -86,7 +96,7 @@
 							<outputDirectory>${basedir}/target/classes/static/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/../front-end/build</directory>
+									<directory>${basedir}/../react-crud/build</directory>
 								</resource>
 							</resources>
 						</configuration>

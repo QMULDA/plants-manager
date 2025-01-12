@@ -13,6 +13,26 @@ class PlantDataService {
     return http.post("/plants", data);
   }
 
+  importCsv() {
+    return http.post("/import-csv");
+  }
+
+  importJson() {
+    return http.post("/import-json");
+  }
+
+  createCactus(data) {
+    return http.post("/cactus", data);
+  }
+
+  getCountTrailingPlants() {
+    return http.get("/trailing");
+  }
+
+  getCountFloweringPlants() {
+    return http.get("/flowering");
+  }
+
   update(id, data) {
     return http.put(`/plants/${id}`, data);
   }
@@ -25,8 +45,8 @@ class PlantDataService {
     return http.delete(`/plants`);
   }
 
-  findByCommonName(title) {
-    return http.get(`/plants?title=${title}`);
+  findByCommonName(commonName) {
+    return http.get(`/plants?commonName=${commonName}`);
   }
 }
 

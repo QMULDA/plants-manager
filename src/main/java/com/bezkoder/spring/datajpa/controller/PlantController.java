@@ -1,9 +1,12 @@
 package com.bezkoder.spring.datajpa.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import com.bezkoder.spring.datajpa.model.Cactus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,16 +31,32 @@ public class PlantController {
 
 	@Autowired
 	PlantRepository plantRepository;
+	@Autowired
+	CsvImportService csvImportService;
+	@Autowired
+	JsonImportService jsonImportService;
+
+	@PostMapping("/import-csv")
+	public ResponseEntity<String> importCsv() {
+		csvImportService.importCsvData();
+		return ResponseEntity.ok("CSV import successful");
+	}
+
+	@PostMapping("/import-json")
+	public ResponseEntity<String> importJson() throws IOException {
+		jsonImportService.importJsonData();
+		return ResponseEntity.ok("JSON import successful");
+	}
 
 	@GetMapping("/plants")
-	public ResponseEntity<List<Plant>> getAllPlants(@RequestParam(required = false) String title) {
+	public ResponseEntity<List<Plant>> getAllPlants(@RequestParam(required = false) String commonName) {
 		try {
 			List<Plant> plants = new ArrayList<Plant>();
 
-			if (title == null)
+			if (commonName == null)
 				plantRepository.findAll().forEach(plants::add);
 			else
-				plantRepository.findByCommonNameContaining(title).forEach(plants::add);
+				plantRepository.findByCommonNameContaining(commonName).forEach(plants::add);
 
 			if (plants.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -47,6 +66,18 @@ public class PlantController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@GetMapping("/trailing")
+	public ResponseEntity<Map<String, Long>> getCountOfTrailingPlants() {
+		Map<String, Long> trailingCount = plantRepository.getTrailingAndTotalCount();
+		return new ResponseEntity<>(trailingCount, HttpStatus.OK);
+	}
+
+	@GetMapping("/flowering")
+	public ResponseEntity<Map<String, Long>> getCountOfFloweringPlants() {
+		Map<String, Long> floweringCount = plantRepository.getFloweringAndTotalCount();
+		return new ResponseEntity<>(floweringCount, HttpStatus.OK);
 	}
 
 	@GetMapping("/plants/{id}")
@@ -64,10 +95,25 @@ public class PlantController {
 	public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
 		try {
 			Plant _plant = plantRepository
-					.save(new Plant(plant.getCommonName(), plant.getDescription(), false));
+					.save(new Plant(plant.getCommonName(), plant.getScientificName(), false, false));
+			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
+ 		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/cactus")
+	public ResponseEntity<Plant> createCactus(@RequestBody Plant plant) {
+		try {
+			System.out.println("Dog constructor called. 1");
+			var c = new Cactus("","false", false);
+			System.out.println("Dog constructor called. 2");
+			Plant _plant = plantRepository.save(c);
+			System.out.println("Dog constructor called. 3");
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			System.out.println("Dog constructor called. 4");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -78,8 +124,9 @@ public class PlantController {
 		if (plantData.isPresent()) {
 			Plant _plant = plantData.get();
 			_plant.setCommonName(plant.getCommonName());
-			_plant.setDescription(plant.getDescription());
-			_plant.setPublished(plant.isPublished());
+			_plant.setScientificName(plant.getScientificName());
+			_plant.setIsTrailing(plant.getIsTrailing());
+			_plant.setFlowering(plant.getFlowering());
 			return new ResponseEntity<>(plantRepository.save(_plant), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -105,20 +152,6 @@ public class PlantController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}
-
-	@GetMapping("/plants/published")
-	public ResponseEntity<List<Plant>> findByPublished() {
-		try {
-			List<Plant> plants = plantRepository.findByPublished(true);
-
-			if (plants.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(plants, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 	}
 
 }

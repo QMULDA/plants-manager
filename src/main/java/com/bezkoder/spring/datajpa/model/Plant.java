@@ -10,23 +10,25 @@ public class Plant {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "commonName")
+	private String commonName;
 
-	@Column(name = "description")
-	private String description;
+	@Column(name = "scientificName")
+	private String scientificName;
 
-	@Column(name = "published")
-	private boolean published;
+	@Column(name = "isTrailing")
+	private boolean isTrailing;
 
-	public Plant() {
+	@Column(name = "flowering")
+	private boolean flowering;
 
-	}
+	public Plant() {}
 
-	public Plant(String title, String description, boolean published) {
-		this.title = title;
-		this.description = description;
-		this.published = published;
+	public Plant(String commonName, String scientificName, boolean isTrailing, boolean flowering) {
+		this.commonName = commonName;
+		this.scientificName = scientificName;
+		this.isTrailing = isTrailing;
+		this.flowering = flowering;
 	}
 
 	public long getId() {
@@ -34,32 +36,30 @@ public class Plant {
 	}
 
 	public String getCommonName() {
-		return title;
+		return commonName;
 	}
 
-	public void setCommonName(String title) {
-		this.title = title;
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getScientificName() {
+		return scientificName;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public void setScientificName(String scientificName) { this.scientificName = scientificName; }
 
-	public boolean isPublished() {
-		return published;
-	}
+	public boolean getIsTrailing() { return isTrailing; }
 
-	public void setPublished(boolean isPublished) {
-		this.published = isPublished;
-	}
+	public void setIsTrailing(boolean isTrailing) { this.isTrailing = isTrailing; }
+
+	public boolean getFlowering() {return flowering;}
+
+	public void setFlowering(boolean isFlowering) {this.flowering = isFlowering;}
 
 	@Override
 	public String toString() {
-		return "Plant [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + scientificName + ", trailing=" + isTrailing + ", flowering=" + flowering + "]";
 	}
 
 }

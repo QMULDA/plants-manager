@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import PlantDataService from "../services/plant.service";
 
-export default class AddPlant extends Component {
+export default class AddCactus extends Component {
   constructor(props) {
     super(props);
     this.onChangeCommonName = this.onChangeCommonName.bind(this);
     this.onChangeScientificName = this.onChangeScientificName.bind(this);
-    this.savePlant = this.savePlant.bind(this);
-    this.newPlant = this.newPlant.bind(this);
+    this.saveCactus = this.saveCactus.bind(this);
+    this.newCactus = this.newCactus.bind(this);
 
     this.state = {
       id: null,
-      commonName: "",
-      scientificName: "",
+      commonName: "Cactus",
+      scientificName: "CactusSci",
       isTrailing: false,
       flowering: false,
 
@@ -32,14 +32,15 @@ export default class AddPlant extends Component {
     });
   }
 
-  savePlant() {
+  saveCactus() {
     var data = {
       commonName: this.state.commonName,
       scientificName: this.state.scientificName
     };
 
-    PlantDataService.create(data)
+    PlantDataService.createCactus(data)
       .then(response => {
+        console.log(data);
         this.setState({
           id: response.data.id,
           commonName: response.data.commonName,
@@ -52,15 +53,16 @@ export default class AddPlant extends Component {
         console.log(response.data);
       })
       .catch(e => {
+        console.log(data);
         console.log(e);
       });
   }
 
-  newPlant() {
+  newCactus() {
     this.setState({
       id: null,
-      commonName: "",
-      scientificName: "",
+      commonName: "cactus",
+      scientificName: "cactusSci",
       isTrailing: false,
       flowering: false,
 
@@ -74,7 +76,7 @@ export default class AddPlant extends Component {
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={this.newPlant}>
+            <button className="btn btn-success" onClick={this.newCactus}>
               Add
             </button>
           </div>
@@ -106,7 +108,7 @@ export default class AddPlant extends Component {
               />
             </div>
 
-            <button onClick={this.savePlant} className="btn btn-success">
+            <button onClick={this.saveCactus} className="btn btn-success">
               Submit
             </button>
           </div>
