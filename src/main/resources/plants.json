@@ -1,0 +1,44 @@
+[
+  {
+    "commonName": "Spiderwort",
+    "scientificName": "Tradescantia Zebrina",
+    "isTrailing": true,
+    "flowering": true
+  },
+  {
+    "commonName": "Spider plant",
+    "scientificName": "Chlorophytum comosum",
+    "isTrailing": false,
+    "flowering": true
+  },
+  {
+    "commonName": "String of pearls",
+    "scientificName": "Senecio rowleyanus",
+    "isTrailing": true,
+    "flowering": false
+  },
+  {
+    "commonName": "Arrowhead",
+    "scientificName": "Sagittaria",
+    "isTrailing": false,
+    "flowering": false
+  },
+  {
+    "commonName": "Avocado",
+    "scientificName": "Persea americana",
+    "isTrailing": false,
+    "flowering": true
+  },
+  {
+    "commonName": "Dragon fruit",
+    "scientificName": "Selenicereus undatus",
+    "isTrailing": false,
+    "flowering": true
+  },
+  {
+    "commonName": "Leatherpetal",
+    "scientificName": "Graptopetalum",
+    "isTrailing": false,
+    "flowering": true
+  }
+]
