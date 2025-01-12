@@ -17,6 +17,10 @@ class PlantDataService {
     return http.post("/cactus", data);
   }
 
+  getCountTrailingPlants() {
+    return http.get("/trailing");
+  }
+
   update(id, data) {
     return http.put(`/plants/${id}`, data);
   }

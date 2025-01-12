@@ -8,7 +8,6 @@ class Plant extends Component {
         this.onChangeCommonName = this.onChangeCommonName.bind(this);
         this.onChangeScientificName = this.onChangeScientificName.bind(this);
         this.getPlant = this.getPlant.bind(this);
-        //this.updateIsTrailing = this.updateIsTrailing.bind(this);
         this.updatePlant = this.updatePlant.bind(this);
         this.deletePlant = this.deletePlant.bind(this);
 

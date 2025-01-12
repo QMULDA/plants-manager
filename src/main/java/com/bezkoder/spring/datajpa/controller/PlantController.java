@@ -2,6 +2,7 @@ package com.bezkoder.spring.datajpa.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.bezkoder.spring.datajpa.model.Cactus;
@@ -50,6 +51,13 @@ public class PlantController {
 		}
 	}
 
+	@GetMapping("/trailing")
+	public ResponseEntity<Map<String, Long>> getCountOfTrailingPlants() {
+		Map<String, Long> trailingCount = plantRepository.getTrailingAndTotalCount();
+		return new ResponseEntity<>(trailingCount, HttpStatus.OK);
+	}
+
+
 	@GetMapping("/plants/{id}")
 	public ResponseEntity<Plant> getPlantById(@PathVariable("id") long id) {
 		Optional<Plant> plantData = plantRepository.findById(id);
@@ -67,7 +75,7 @@ public class PlantController {
 			Plant _plant = plantRepository
 					.save(new Plant(plant.getCommonName(), plant.getScientificName(), false, false));
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
-		} catch (Exception e) {
+ 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -76,7 +84,7 @@ public class PlantController {
 	public ResponseEntity<Plant> createCactus(@RequestBody Plant plant) {
 		try {
 			System.out.println("Dog constructor called. 1");
-			var c = new Cactus(false, false);
+			var c = new Cactus("","false", false);
 			System.out.println("Dog constructor called. 2");
 			//Plant c = new Plant(plant.getCommonName(), plant.getScientificName(),false, false);
 			Plant _plant = plantRepository.save(c);

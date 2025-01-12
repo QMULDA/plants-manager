@@ -22,9 +22,7 @@ public class Plant {
 	@Column(name = "flowering")
 	private boolean flowering;
 
-	public Plant() {
-
-	}
+	public Plant() {}
 
 	public Plant(String commonName, String scientificName, boolean isTrailing, boolean flowering) {
 		this.commonName = commonName;
