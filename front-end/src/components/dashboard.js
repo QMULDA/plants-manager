@@ -104,12 +104,11 @@ export default class Dashboard extends Component {
 
     render() {
         return (
-            <div className="dashboard">
-                <h2>Plant Dashboard</h2>
-                <div className="chart-container">
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                <div className="chart-container" style={{width: '400px'}}>
                     <canvas id="trailingChart"></canvas>
                 </div>
-                <div className="chart-container">
+                <div className="chart-container" style={{width: '400px'}}>
                     <canvas id="floweringChart"></canvas>
                 </div>
             </div>

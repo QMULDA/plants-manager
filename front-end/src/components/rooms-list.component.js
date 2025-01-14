@@ -85,7 +85,6 @@ export default class RoomsList extends Component {
 
         return (
             <div className="list row">
-                {/* ROOMS LIST */}
                 <div className="col-md-6">
                     <h4>Rooms List</h4>
                     <ul className="list-group">
@@ -111,11 +110,10 @@ export default class RoomsList extends Component {
                     </button>
                 </div>
 
-                {/* PLANTS IN SELECTED ROOM */}
                 <div className="col-md-6">
                     {currentRoom ? (
                         <div>
-                            <h4>Plants in Room: {currentRoom.name}</h4>
+                            <h4>Plants in Room: {plants.length}</h4>
                             {plants && plants.length > 0 ? (
                                 <ul className="list-group">
                                     {plants.map((plant, index) => (
