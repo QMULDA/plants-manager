@@ -25,6 +25,10 @@ class PlantDataService {
     return http.post("/cactus", data);
   }
 
+  createFern(data) {
+    return http.post("/fern", data);
+  }
+
   getCountTrailingPlants() {
     return http.get("/trailing");
   }
@@ -48,6 +52,27 @@ class PlantDataService {
   findByCommonName(commonName) {
     return http.get(`/plants?commonName=${commonName}`);
   }
+
+  getRooms() {
+    return http.get("/rooms");
+  }
+
+  getPlantsByRoom(roomId) {
+    return http.get(`/rooms/${roomId}/plants`);
+  }
+
+  getAllRooms() {
+    return http.get("/rooms");
+  }
+
+  createRoom(data) {
+    return http.post("/rooms", data);
+  }
+
+  deleteRoom(id) {
+    return http.delete(`/rooms/${id}`);
+  }
+
 }
 
 export default new PlantDataService();

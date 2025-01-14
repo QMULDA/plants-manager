@@ -1,4 +1,4 @@
-package com.bezkoder.spring.datajpa.controller;
+package com.bezkoder.spring.datajpa.service;
 
 import com.bezkoder.spring.datajpa.model.Plant;
 import com.bezkoder.spring.datajpa.repository.PlantRepository;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service

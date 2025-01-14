@@ -1,21 +1,24 @@
-package com.bezkoder.spring.datajpa.controller;
+package com.bezkoder.spring.datajpa.service;
 
 import com.bezkoder.spring.datajpa.model.Plant;
+import com.bezkoder.spring.datajpa.model.Room;
 import com.bezkoder.spring.datajpa.repository.PlantRepository;
+import com.bezkoder.spring.datajpa.repository.RoomRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Service
 public class CsvImportService {
     @Autowired
     private PlantRepository plantRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+
 
     public void importCsvData() {
         String filePath = "src/main/resources/plants.csv";
@@ -28,6 +31,11 @@ public class CsvImportService {
                 plant.setScientificName(nextLine[1]);
                 plant.setIsTrailing(Boolean.parseBoolean(nextLine[2]));
                 plant.setFlowering(Boolean.parseBoolean(nextLine[3]));
+                if (!nextLine[4].isEmpty()) {
+                    Long roomId = Long.parseLong(nextLine[4]);
+                    Room room = roomRepository.findById(roomId).orElse(null);
+                    plant.setRoom(room);
+                }
                 plantRepository.save(plant);
             }
         } catch (CsvValidationException e) {

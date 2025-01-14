@@ -1,8 +1,8 @@
-commonName,scientificName,isTrailing,flowering
-Spiderwort,Tradescantia Zebrina,true,true
-Spider plant,Chlorophytum comosum,false,true
-String of pearls,Senecio rowleyanus,true,false
-Arrowhead,Sagittaria,false,false
-Avocado,Persea americana,false,true
-Dragon fruit,Selenicereus undatus,false,true
-Leatherpetal,Graptopetalum,false,true
+commonName,scientificName,isTrailing,flowering,roomID
+Spiderwort,Tradescantia Zebrina,true,true,1
+Spider plant,Chlorophytum comosum,false,true,2
+String of pearls,Senecio rowleyanus,true,false,1
+Arrowhead,Sagittaria,false,false,2
+Avocado,Persea americana,false,true,1
+Dragon fruit,Selenicereus undatus,false,true,2
+Leatherpetal,Graptopetalum,false,true,1

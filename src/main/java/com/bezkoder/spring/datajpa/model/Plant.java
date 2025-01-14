@@ -1,65 +1,92 @@
 package com.bezkoder.spring.datajpa.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "plants")
 public class Plant {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	@Column(name = "commonName")
-	private String commonName;
+    private String commonName;
+    private String scientificName;
+    private boolean isTrailing;
+    private boolean flowering;
 
-	@Column(name = "scientificName")
-	private String scientificName;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    private Room room;
 
-	@Column(name = "isTrailing")
-	private boolean isTrailing;
+    public Plant() {
+    }
 
-	@Column(name = "flowering")
-	private boolean flowering;
+    public Plant(String commonName, String scientificName, boolean isTrailing, boolean flowering) {
+        this.commonName = commonName;
+        this.scientificName = scientificName;
+        this.isTrailing = isTrailing;
+        this.flowering = flowering;
+    }
 
-	public Plant() {}
+    public long getId() {
+        return id;
+    }
 
-	public Plant(String commonName, String scientificName, boolean isTrailing, boolean flowering) {
-		this.commonName = commonName;
-		this.scientificName = scientificName;
-		this.isTrailing = isTrailing;
-		this.flowering = flowering;
-	}
+    public String getCommonName() {
+        return commonName;
+    }
 
-	public long getId() {
-		return id;
-	}
+    public void setCommonName(String commonName) {
+        this.commonName = commonName;
+    }
 
-	public String getCommonName() {
-		return commonName;
-	}
+    public String getScientificName() {
+        return scientificName;
+    }
 
-	public void setCommonName(String commonName) {
-		this.commonName = commonName;
-	}
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
+    }
 
-	public String getScientificName() {
-		return scientificName;
-	}
+    public boolean getIsTrailing() {
+        return isTrailing;
+    }
 
-	public void setScientificName(String scientificName) { this.scientificName = scientificName; }
+    public void setIsTrailing(boolean isTrailing) {
+        this.isTrailing = isTrailing;
+    }
 
-	public boolean getIsTrailing() { return isTrailing; }
+    public boolean getFlowering() {
+        return flowering;
+    }
 
-	public void setIsTrailing(boolean isTrailing) { this.isTrailing = isTrailing; }
+    public void setFlowering(boolean flowering) {
+        this.flowering = flowering;
+    }
 
-	public boolean getFlowering() {return flowering;}
+    public Room getRoom() {
+        return room;
+    }
 
-	public void setFlowering(boolean isFlowering) {this.flowering = isFlowering;}
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
-	@Override
-	public String toString() {
-		return "Plant [id=" + id + ", commonName=" + commonName + ", desc=" + scientificName + ", trailing=" + isTrailing + ", flowering=" + flowering + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "Plant [id=" + id
+                + ", commonName=" + commonName
+                + ", scientificName=" + scientificName
+                + ", trailing=" + isTrailing
+                + ", flowering=" + flowering + "]";
+    }
 }

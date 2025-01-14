@@ -3,7 +3,7 @@
 Build a React.js CRUD Application to consume Web API, display and modify data with Router, Axios & Bootstrap.
 
 React Plant Application in that:
-- Each Plant has id, title, description, published status.
+- Each Plant has roomID, title, description, published status.
 - We can create, retrieve, update, delete Plants.
 - There is a Search bar for finding Plants by title.
 

@@ -1,13 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PlantDataService from "../services/plant.service";
-import {withRouter} from '../common/with-router';
+import { withRouter } from "../common/with-router";
 
 class Plant extends Component {
     constructor(props) {
         super(props);
         this.onChangeCommonName = this.onChangeCommonName.bind(this);
         this.onChangeScientificName = this.onChangeScientificName.bind(this);
+        this.onChangeRoom = this.onChangeRoom.bind(this);
         this.getPlant = this.getPlant.bind(this);
+        this.getRooms = this.getRooms.bind(this);
         this.updatePlant = this.updatePlant.bind(this);
         this.deletePlant = this.deletePlant.bind(this);
 
@@ -17,33 +19,55 @@ class Plant extends Component {
                 commonName: "",
                 scientificName: "",
                 isTrailing: false,
-                flowering: false
+                flowering: false,
+                room: null,
             },
+            rooms: [],
             message: ""
         };
     }
 
     componentDidMount() {
         this.getPlant(this.props.router.params.id);
+        this.getRooms();
+    }
+
+    getPlant(id) {
+        PlantDataService.get(id)
+            .then((response) => {
+                this.setState({
+                    currentPlant: response.data
+                });
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    getRooms() {
+        PlantDataService.getRooms()
+            .then((response) => {
+                this.setState({ rooms: response.data });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 
     onChangeCommonName(e) {
         const commonName = e.target.value;
-
-        this.setState(function (prevState) {
-            return {
-                currentPlant: {
-                    ...prevState.currentPlant,
-                    commonName: commonName
-                }
-            };
-        });
+        this.setState((prevState) => ({
+            currentPlant: {
+                ...prevState.currentPlant,
+                commonName: commonName
+            }
+        }));
     }
 
     onChangeScientificName(e) {
         const scientificName = e.target.value;
-
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
             currentPlant: {
                 ...prevState.currentPlant,
                 scientificName: scientificName
@@ -51,96 +75,43 @@ class Plant extends Component {
         }));
     }
 
-    getPlant(id) {
-        PlantDataService.get(id)
-            .then(response => {
-                this.setState({
-                    currentPlant: response.data
-                });
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    }
-
-    updateIsTrailing(status) {
-        var data = {
-            id: this.state.currentPlant.id,
-            commonName: this.state.currentPlant.commonName,
-            scientificName: this.state.currentPlant.scientificName,
-            isTrailing: status,
-            flowering: this.state.currentPlant.flowering
-        };
-
-        PlantDataService.update(this.state.currentPlant.id, data)
-            .then(response => {
-                this.setState(prevState => ({
-                    currentPlant: {
-                        ...prevState.currentPlant,
-                        isTrailing: status
-                    }
-                }));
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    }
-
-    updateFlowering(status) {
-        var data = {
-            id: this.state.currentPlant.id,
-            commonName: this.state.currentPlant.commonName,
-            scientificName: this.state.currentPlant.scientificName,
-            isTrailing: this.state.currentPlant.isTrailing,
-            flowering: status
-        };
-
-        PlantDataService.update(this.state.currentPlant.id, data)
-            .then(response => {
-                this.setState(prevState => ({
-                    currentPlant: {
-                        ...prevState.currentPlant,
-                        flowering: status
-                    }
-                }));
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+    onChangeRoom(e) {
+        const newRoomId = e.target.value;
+        const newRoomObject = newRoomId ? { id: parseInt(newRoomId) } : null;
+        this.setState((prevState) => ({
+            currentPlant: {
+                ...prevState.currentPlant,
+                room: newRoomObject
+            }
+        }));
     }
 
     updatePlant() {
-        PlantDataService.update(
-            this.state.currentPlant.id,
-            this.state.currentPlant
-        )
-            .then(response => {
+        PlantDataService.update(this.state.currentPlant.id, this.state.currentPlant)
+            .then((response) => {
                 console.log(response.data);
                 this.setState({
                     message: "The plant was updated successfully!"
                 });
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log(e);
             });
     }
 
     deletePlant() {
         PlantDataService.delete(this.state.currentPlant.id)
-            .then(response => {
+            .then((response) => {
                 console.log(response.data);
-                this.props.router.navigate('/plants');
+                this.props.router.navigate("/plants");
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log(e);
             });
     }
 
     render() {
-        const {currentPlant} = this.state;
+        const { currentPlant, rooms } = this.state;
 
         return (
             <div>
@@ -170,53 +141,66 @@ class Plant extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label>
-                                    <strong>Status:</strong>
-                                </label>
-                                {currentPlant.isTrailing ? "Trailing" : "Not Trailing"}
-                            </div>
-
-                            <div className="form-group">
-                                <label>
-                                    <strong>Status:</strong>
-                                </label>
-                                {currentPlant.flowering ? "Flowering" : "Not Flowering"}
+                                <label>Room</label>
+                                <select
+                                    className="form-control"
+                                    value={currentPlant.room ? currentPlant.room.id : ""}
+                                    onChange={this.onChangeRoom}
+                                >
+                                    <option value="">(No Room)</option>
+                                    {rooms.map((room) => (
+                                        <option key={room.id} value={room.id}>
+                                            {room.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </form>
 
-                        {
-                            currentPlant.isTrailing ? (
-                                <button
-                                    className="badge badge-primary mr-2"
-                                    onClick={() => this.updateIsTrailing(false)}
-                                >
-                                    Not Trailing
-                                </button>
-                            ) : (
-                                <button
-                                    className="badge badge-primary mr-2"
-                                    onClick={() => this.updateIsTrailing(true)}
-                                >
-                                    Trailing
-                                </button>
-                            )}
+                        <div className="form-group">
+                            <label>
+                                <strong>Trailing Status:</strong>
+                            </label>{" "}
+                            {currentPlant.isTrailing ? "Trailing" : "Not Trailing"}
+                        </div>
+                        <div className="form-group">
+                            <label>
+                                <strong>Flowering Status:</strong>
+                            </label>{" "}
+                            {currentPlant.flowering ? "Flowering" : "Not Flowering"}
+                        </div>
 
-                        {
-                            currentPlant.flowering ? (
-                                <button
-                                    className="badge badge-primary mr-2"
-                                    onClick={() => this.updateFlowering(false)}
-                                >
-                                    Not Flowering
-                                </button>
-                            ) : (
-                                <button
-                                    className="badge badge-primary mr-2"
-                                    onClick={() => this.updateFlowering(true)}
-                                >
-                                    Flowering
-                                </button>
-                            )}
+                        {currentPlant.isTrailing ? (
+                            <button
+                                className="badge badge-primary mr-2"
+                                onClick={() => this.updateIsTrailing(false)}
+                            >
+                                Not Trailing
+                            </button>
+                        ) : (
+                            <button
+                                className="badge badge-primary mr-2"
+                                onClick={() => this.updateIsTrailing(true)}
+                            >
+                                Trailing
+                            </button>
+                        )}
+
+                        {currentPlant.flowering ? (
+                            <button
+                                className="badge badge-primary mr-2"
+                                onClick={() => this.updateFlowering(false)}
+                            >
+                                Not Flowering
+                            </button>
+                        ) : (
+                            <button
+                                className="badge badge-primary mr-2"
+                                onClick={() => this.updateFlowering(true)}
+                            >
+                                Flowering
+                            </button>
+                        )}
 
                         <button
                             className="badge badge-danger mr-2"
@@ -232,16 +216,45 @@ class Plant extends Component {
                         >
                             Update
                         </button>
+
                         <p>{this.state.message}</p>
                     </div>
                 ) : (
                     <div>
-                        <br/>
+                        <br />
                         <p>Please click on a plant...</p>
                     </div>
                 )}
             </div>
         );
+    }
+
+    updateIsTrailing(status) {
+        const data = {
+            ...this.state.currentPlant,
+            isTrailing: status
+        };
+        PlantDataService.update(data.id, data)
+            .then((response) => {
+                this.setState({ currentPlant: response.data });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    updateFlowering(status) {
+        const data = {
+            ...this.state.currentPlant,
+            flowering: status
+        };
+        PlantDataService.update(data.id, data)
+            .then((response) => {
+                this.setState({ currentPlant: response.data });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 }
 

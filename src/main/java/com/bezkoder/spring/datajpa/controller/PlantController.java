@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.bezkoder.spring.datajpa.model.Cactus;
+import com.bezkoder.spring.datajpa.model.Fern;
+import com.bezkoder.spring.datajpa.model.Room;
+import com.bezkoder.spring.datajpa.repository.RoomRepository;
+import com.bezkoder.spring.datajpa.service.CsvImportService;
+import com.bezkoder.spring.datajpa.service.JsonImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,20 +37,32 @@ public class PlantController {
 	@Autowired
 	PlantRepository plantRepository;
 	@Autowired
+	private RoomRepository roomRepository;
+	@Autowired
 	CsvImportService csvImportService;
 	@Autowired
 	JsonImportService jsonImportService;
 
 	@PostMapping("/import-csv")
 	public ResponseEntity<String> importCsv() {
-		csvImportService.importCsvData();
-		return ResponseEntity.ok("CSV import successful");
+		try {
+			csvImportService.importCsvData();
+			return ResponseEntity.ok("CSV import successful.");
+		} catch (Exception e) {
+			return new ResponseEntity<>("CSV import failed: " + e.getMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@PostMapping("/import-json")
-	public ResponseEntity<String> importJson() throws IOException {
-		jsonImportService.importJsonData();
-		return ResponseEntity.ok("JSON import successful");
+	public ResponseEntity<String> importJson() {
+		try {
+			jsonImportService.importJsonData();
+			return ResponseEntity.ok("JSON import successful.");
+		} catch (Exception e) {
+			return new ResponseEntity<>("JSON import failed: " + e.getMessage(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/plants")
@@ -94,40 +111,83 @@ public class PlantController {
 	@PostMapping("/plants")
 	public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
 		try {
-			Plant _plant = plantRepository
-					.save(new Plant(plant.getCommonName(), plant.getScientificName(), false, false));
+			if (plant.getRoom() != null && plant.getRoom().getId() != null) {
+				Room existingRoom = roomRepository.findById(plant.getRoom().getId())
+						.orElseThrow(() -> new RuntimeException("Room not found"));
+				plant.setRoom(existingRoom);
+			}
+
+			Plant _plant = plantRepository.save(plant);
 			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
- 		} catch (Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+
 	@PostMapping("/cactus")
-	public ResponseEntity<Plant> createCactus(@RequestBody Plant plant) {
+	public ResponseEntity<Plant> createCactus(@RequestBody Plant plantRequest) {
 		try {
-			System.out.println("Dog constructor called. 1");
-			var c = new Cactus("","false", false);
-			System.out.println("Dog constructor called. 2");
-			Plant _plant = plantRepository.save(c);
-			System.out.println("Dog constructor called. 3");
-			return new ResponseEntity<>(_plant, HttpStatus.CREATED);
-		} catch (Exception e) {
-			System.out.println("Dog constructor called. 4");
+			Cactus cactus = new Cactus(
+					plantRequest.getCommonName(),
+					plantRequest.getScientificName(),
+					plantRequest.getFlowering()
+			);
+			if (plantRequest.getRoom() != null && plantRequest.getRoom().getId() != null) {
+				Room existingRoom = roomRepository.findById(plantRequest.getRoom().getId())
+						.orElseThrow(() -> new RuntimeException("Room not found"));
+				cactus.setRoom(existingRoom);
+			}
+			Plant saved = plantRepository.save(cactus);
+			return new ResponseEntity<>(saved, HttpStatus.CREATED);
+		} catch(Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	@PostMapping("/fern")
+	public ResponseEntity<Plant> createFern(@RequestBody Plant plantRequest) {
+		try {
+			Fern fern = new Fern(
+					plantRequest.getCommonName(),
+					plantRequest.getScientificName()
+			);
+			fern.setIsTrailing(plantRequest.getIsTrailing());
+
+			if (plantRequest.getRoom() != null && plantRequest.getRoom().getId() != null) {
+				Room existingRoom = roomRepository.findById(plantRequest.getRoom().getId())
+						.orElseThrow(() -> new RuntimeException("Room not found"));
+				fern.setRoom(existingRoom);
+			}
+			Plant saved = plantRepository.save(fern);
+			return new ResponseEntity<>(saved, HttpStatus.CREATED);
+		} catch(Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
 	@PutMapping("/plants/{id}")
-	public ResponseEntity<Plant> updatePlant(@PathVariable("id") long id, @RequestBody Plant plant) {
+	public ResponseEntity<Plant> updatePlant(@PathVariable("id") long id, @RequestBody Plant plantRequest) {
 		Optional<Plant> plantData = plantRepository.findById(id);
 
 		if (plantData.isPresent()) {
-			Plant _plant = plantData.get();
-			_plant.setCommonName(plant.getCommonName());
-			_plant.setScientificName(plant.getScientificName());
-			_plant.setIsTrailing(plant.getIsTrailing());
-			_plant.setFlowering(plant.getFlowering());
-			return new ResponseEntity<>(plantRepository.save(_plant), HttpStatus.OK);
+			Plant existingPlant = plantData.get();
+			existingPlant.setCommonName(plantRequest.getCommonName());
+			existingPlant.setScientificName(plantRequest.getScientificName());
+			existingPlant.setIsTrailing(plantRequest.getIsTrailing());
+			existingPlant.setFlowering(plantRequest.getFlowering());
+
+			if (plantRequest.getRoom() != null && plantRequest.getRoom().getId() != null) {
+				Room existingRoom = roomRepository.findById(plantRequest.getRoom().getId())
+						.orElseThrow(() -> new RuntimeException("Room not found with id: " + plantRequest.getRoom().getId()));
+				existingPlant.setRoom(existingRoom);
+			} else {
+				existingPlant.setRoom(null);
+			}
+
+			Plant updatedPlant = plantRepository.save(existingPlant);
+			return new ResponseEntity<>(updatedPlant, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
