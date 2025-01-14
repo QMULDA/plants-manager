@@ -1,9 +1,9 @@
-package com.bezkoder.spring.datajpa.service;
+package com.spring.datajpa.service;
 
-import com.bezkoder.spring.datajpa.model.Plant;
-import com.bezkoder.spring.datajpa.model.Room;
-import com.bezkoder.spring.datajpa.repository.PlantRepository;
-import com.bezkoder.spring.datajpa.repository.RoomRepository;
+import com.spring.datajpa.model.Plant;
+import com.spring.datajpa.model.Room;
+import com.spring.datajpa.repository.PlantRepository;
+import com.spring.datajpa.repository.RoomRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,17 +1,16 @@
-package com.bezkoder.spring.datajpa.controller;
+package com.spring.datajpa.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.bezkoder.spring.datajpa.model.Cactus;
-import com.bezkoder.spring.datajpa.model.Fern;
-import com.bezkoder.spring.datajpa.model.Room;
-import com.bezkoder.spring.datajpa.repository.RoomRepository;
-import com.bezkoder.spring.datajpa.service.CsvImportService;
-import com.bezkoder.spring.datajpa.service.JsonImportService;
+import com.spring.datajpa.model.Cactus;
+import com.spring.datajpa.model.Fern;
+import com.spring.datajpa.model.Room;
+import com.spring.datajpa.repository.RoomRepository;
+import com.spring.datajpa.service.CsvImportService;
+import com.spring.datajpa.service.JsonImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bezkoder.spring.datajpa.model.Plant;
-import com.bezkoder.spring.datajpa.repository.PlantRepository;
+import com.spring.datajpa.model.Plant;
+import com.spring.datajpa.repository.PlantRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController

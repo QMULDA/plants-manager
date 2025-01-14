@@ -1,7 +1,7 @@
-package com.bezkoder.spring.datajpa.service;
+package com.spring.datajpa.service;
 
-import com.bezkoder.spring.datajpa.model.Plant;
-import com.bezkoder.spring.datajpa.repository.PlantRepository;
+import com.spring.datajpa.model.Plant;
+import com.spring.datajpa.repository.PlantRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
-package com.bezkoder.spring.datajpa.repository;
+package com.spring.datajpa.repository;
 
 import java.util.List;
 import java.util.Map;
 
-import com.bezkoder.spring.datajpa.model.Plant;
+import com.spring.datajpa.model.Plant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

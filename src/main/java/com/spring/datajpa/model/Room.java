@@ -1,4 +1,4 @@
-package com.bezkoder.spring.datajpa.model;
+package com.spring.datajpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

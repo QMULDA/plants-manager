@@ -1,8 +1,8 @@
-package com.bezkoder.spring.datajpa.controller;
+package com.spring.datajpa.controller;
 
-import com.bezkoder.spring.datajpa.model.Plant;
-import com.bezkoder.spring.datajpa.model.Room;
-import com.bezkoder.spring.datajpa.repository.RoomRepository;
+import com.spring.datajpa.model.Plant;
+import com.spring.datajpa.model.Room;
+import com.spring.datajpa.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
